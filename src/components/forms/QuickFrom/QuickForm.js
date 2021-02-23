@@ -2,12 +2,42 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const QuickForm = (props) => {
-  const { selects, addToAnimals } = props;
+  const { selects, addToAnimals, data } = props;
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    addToAnimals(data);
+  const onSubmit = (newData) => {
+    var edit = false;
+    console.log(newData);
+    console.log('newdata.date: ' + new Date().toISOString().substring(0, 10));
+    data.map((animal) => {
+      //jos eläin löytyy jo listasta
+      if (animal.number === newData.number) {
+        edit = true;
+        var newAnimal = animal;
+        newAnimal.notes.push({
+          date: new Date().toISOString().substring(0, 10),
+          note: newData.note,
+        });
+        newAnimal.notes.sort(
+          (a, b) => daysFromLastNote(a.date) - daysFromLastNote(b.date)
+        );
+        addToAnimals(newAnimal);
+      }
+    });
+    if (edit === false) {
+      addToAnimals({
+        number: newData.number,
+        name: '',
+        race: '',
+        where: '',
+        notes: [
+          {
+            date: new Date().toISOString().substring(0, 10),
+            note: newData.note,
+          },
+        ],
+      });
+    }
   };
 
   return (
@@ -57,4 +87,15 @@ const QuickForm = (props) => {
     </div>
   );
 };
-export default QuickForm;
+
+// palauttaa 1 huomenna / 0 tänään / -1 eilen
+const daysFromLastNote = (date) => {
+  var now = new Date();
+  var x = Date.parse(date);
+  var sec = (now - x) / 1000;
+  var h = sec / 3600;
+  var days = Math.round(h / 24);
+
+  return days - 1;
+};
+export { QuickForm as default, daysFromLastNote };

@@ -1,57 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import 'firebase/firestore';
 
 import Content from '../content';
-import Events from '../events';
-
+import Sighting from '../sightings';
 import Navigation from '../navigation';
-import QuickForm from '../forms/QuickFrom';
 import Info from '../Info';
+import QuickForm from '../forms/QuickFrom';
 
-import testData from '../../testData.js';
+//import testData from '../../testData.js';
 import { selects as testSelects } from '../../testData.js';
 import {
   FloatingButton,
   ButtonAppContainer,
   ButtonContainer,
 } from '../shared/button/Button';
+import AnimalProfile from '../animalProfile/AnimalProfile';
 
 const App = () => {
-  const [data, setData] = useState(testData);
+  const [data, setData] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [selects, setSelect] = useState(testSelects);
   //form state
-  const [newNote, setNewNote] = useState(false);
-  const [number, setNumber] = useState(0);
+  const [states, setStates] = useState({ edit: false, add: false });
+
+  const animalCollectionRef = useFirestore().collection('animals');
+  const { data: animalCollection } = useFirestoreCollectionData(
+    animalCollectionRef.orderBy('notes'),
+    {
+      initialData: [],
+      idField: 'id',
+    }
+  );
+
+  useEffect(() => {
+    setData(animalCollection);
+  }, [animalCollection]);
 
   const addToAnimals = (newData) => {
-    var edit = false; //aluksi eläintä ei ole tiedossa
-    console.log(`tänään: ${new Date()}`);
-    data.map((animal, index) => {
-      //jos eläin löytyy jo listasta
-      if (animal.number === newData.number) {
-        edit = true;
-        var newAnimal = animal[index];
-        newAnimal.notes.push({ date: new Date(), note: newData.note });
-        data.splice(index, 1);
-        setData(data.concat(newAnimal));
-      }
-    });
-    edit === false
-      ? setData(
-        data.concat({
-          number: newData.number,
-          name: '',
-          race: '',
-          where: '',
-          notes: [{ date: new Date(), note: newData.note }],
-        })
-      )
-      : setNumber(0);
+    animalCollectionRef.doc(newData.number).set(newData);
   };
 
-  const handleNotes = (bool) => {
-    setNewNote(bool);
+  const handleAdd = (bool) => {
+    setStates((prevState) => ({ ...prevState, add: bool }));
+    console.log(`add: ${bool}`);
   };
 
   return (
@@ -60,38 +53,46 @@ const App = () => {
         <div
           className='flex flex-col m-0 bg-gradient-to-tl from-red-500 via-gray-900 to-gray-600 h-screen w-full flex-auto'
           onDoubleClick={() => {
-            handleNotes(false);
+            handleAdd(false);
           }}
         >
-          <Navigation handleNotes={handleNotes} />
+          <Navigation handleNotes={handleAdd} />
 
-          <Content handleNotes={handleNotes}>
+          <Content>
             <Route path='/' exact>
-              <Info data={data} note={newNote} />
+              <Info data={data} add={states.add} />
             </Route>
 
-            <Route path='/tapahtumat' exact>
-              <Events data={data} />
+            <Route path='/havainnot' exact>
+              <Sighting data={data} />
             </Route>
+            <Route path='/animal/:id' exact>
+              <AnimalProfile
+                data={data}
+                addToAnimals={addToAnimals}
+                selects={selects}
+              />
+            </Route>
+            <Route path='/animal/profile' exact></Route>
           </Content>
 
-          {newNote ? (
+          {states.add ? (
             <QuickForm
               selects={selects}
               addToAnimals={addToAnimals}
-              number={number}
+              data={data}
             />
           ) : (
             <div className='flex justify-end pb-3'>
               <ButtonContainer>
                 <FloatingButton
-                  secondary
+                  float
                   className='py-4 px-2'
                   onClick={() => {
-                    handleNotes(true);
+                    handleAdd(true);
                   }}
                 >
-                  Lisää
+                  +
                 </FloatingButton>
               </ButtonContainer>
             </div>

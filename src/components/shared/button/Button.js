@@ -1,18 +1,23 @@
 import React from 'react';
+import AddIcon from '@material-ui/icons/Add';
 
 const classNames = (classnames) => classnames.join(' ');
 
 // HUOM! SÄÄDÄ BUTTONIN KOKOA LISÄÄMÄLLÄ className='py-# px-#'
-const Button = ({ className = '', primary, secondary, ...props }) => {
+const Button = ({ className = '', primary, secondary, float, ...props }) => {
   return (
     <button
       type='button'
       className={classNames([
-        'bg-gray-500 border-none outline-none focus:outline-none focus:ring rounded shadow font-bold opacity-80 flex flex-row justify-center items-center',
         className,
-        primary ? 'bg-gray-800 hover:bg-black text-white' : '',
+        primary
+          ? 'mr-3 bg-gray-200 hover:bg-gray-300 border  border-gray-400 text-black font-mono font-bold py-1 px-4 rounded-md'
+          : '',
         secondary
-          ? 'bg-red-500 border-none hover:bg-gray-800 shadow-2xl text-white'
+          ? 'mr-3 bg-green-500 border  border-gray-400 text-sm text-black font-mono py-1 px-20 rounded-md'
+          : '',
+        float
+          ? 'bg-gray-200 border-none hover:bg-green-100 shadow-2xl text-black'
           : '',
       ])}
       {...props}
@@ -24,11 +29,13 @@ const FloatingButton = ({ className = '', ...props }) => {
   return (
     <Button
       className={classNames([
-        'fixed text-sm bottom-12 right-8 rounded-full ',
+        'fixed text-xl text-bold bottom-10 right-8 rounded-full pl-4 pr-4 pt-4 pb-4',
         className,
       ])}
       {...props}
-    />
+    >
+      <AddIcon />
+    </Button>
   );
 };
 

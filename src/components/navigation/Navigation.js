@@ -15,11 +15,14 @@ const Navigation = () => {
           {/*valkoinen imagopallero */}
         </span>
         <div className='flex flex-row text-base'>
+          <Link to='/settings'>
+            <button className='mr-2 hover:text-green-500'>User</button>
+          </Link>
           <Link to='/animal/profile'>
-            <button className='mr-3 hover:text-green-500'>Lisää uusi</button>
+            <button className='mr-2 hover:text-green-500'>Lisää</button>
           </Link>
           <Link to='/'>
-            <button className='mr-3 hover:text-green-500'>Info</button>
+            <button className='mr-2 hover:text-green-500'>Info</button>
           </Link>
           <Link to='/havainnot'>
             <button className='hover:text-green-500'>Havainnot</button>

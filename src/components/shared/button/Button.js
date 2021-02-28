@@ -14,7 +14,7 @@ const Button = ({ className = '', primary, secondary, float, ...props }) => {
           ? 'mr-3 bg-gray-200 hover:bg-gray-300 border  border-gray-400 text-black font-mono font-bold py-1 px-4 rounded-md'
           : '',
         secondary
-          ? 'mr-3 bg-green-500 border  border-gray-400 text-sm text-black font-mono py-1 px-20 rounded-md'
+          ? 'mr-3 bg-green-500 hover:bg-green-400 border  border-gray-400 text-sm text-black font-mono py-1 px-20 rounded-md'
           : '',
         float
           ? 'bg-gray-200 border-none hover:bg-green-100 shadow-2xl text-black'

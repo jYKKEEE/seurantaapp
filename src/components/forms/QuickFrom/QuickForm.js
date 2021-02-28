@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const QuickForm = (props) => {
-  const { selects, addToAnimals, data } = props;
+  const { notes, addToAnimals, data } = props;
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (newData) => {
@@ -67,7 +67,7 @@ const QuickForm = (props) => {
               required
               ref={register}
             >
-              {selects.map((selection, index) => (
+              {notes.map((selection, index) => (
                 <option key={index} className='text-base font-mono text-black'>
                   {selection}
                 </option>
@@ -90,12 +90,17 @@ const QuickForm = (props) => {
 
 // palauttaa 1 huomenna / 0 tänään / -1 eilen
 const daysFromLastNote = (date) => {
-  var now = new Date();
+  var time = new Date().toISOString().substring(0, 10);
+  var now = Date.parse(time);
   var x = Date.parse(date);
+  console.log(`aloitus now: ${now}  . . .   x=   ${x}  time  ${time}`);
   var sec = (now - x) / 1000;
+  console.log(`eka sek: ${sec}`);
   var h = sec / 3600;
+  console.log(`toka h: ${h}`);
   var days = Math.round(h / 24);
+  console.log(`kolmas now: ${days}`);
 
-  return days - 1;
+  return days;
 };
 export { QuickForm as default, daysFromLastNote };

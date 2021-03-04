@@ -15,7 +15,7 @@ const DropdownButton = (props) => {
           setDropEvent(!dropEvent);
         }}
       >
-        <div className=''>
+        <div className='pr-5'>
           <ImportExportIcon />
           {props.text}
         </div>

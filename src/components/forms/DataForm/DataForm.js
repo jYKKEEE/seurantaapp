@@ -20,10 +20,6 @@ const DataForm = (props) => {
       animalLocation: '',
       notes: [],
     };
-    if (id === 'add') {
-      olio.number = '';
-      return olio;
-    }
     for (let i = 0; i < data.length; i++) {
       if (data[i].number === id) {
         olio = data[i];
@@ -112,7 +108,7 @@ const DataForm = (props) => {
             className='text-black rounded w-64'
             type='number'
             name='number'
-            placeholder='Anna korvanumero'
+            placeholder='Anna korvanumero:'
             required
             ref={register({
               required: true,
@@ -126,7 +122,7 @@ const DataForm = (props) => {
             className='text-black rounded w-64'
             type='text'
             name='name'
-            placeholder='Nimi:'
+            placeholder='Anna nimi:'
             ref={register}
           />
           <label className='pt-3 rounded'>Rotu:</label>
@@ -134,15 +130,14 @@ const DataForm = (props) => {
             className='text-black rounded w-64'
             type='text'
             name='race'
-            placeholder='Rotu'
+            placeholder=' Anna rotu:'
             ref={register}
           />
           <label className='pt-3'>Sijainti:</label>
           <div className='flex flex-col w-64'>
             <select
               name='animalLocation'
-              className=' shadow-2xl text-black rounded py-0 px-9'
-              placeholder='Valitse sijainti'
+              className=' shadow-2xl text-black rounded py-0'
               required
               ref={register}
             >
@@ -154,7 +149,7 @@ const DataForm = (props) => {
             </select>
           </div>
           {/*//!!!! BUTTONIT !!!!*/}
-          <div className='flex justify-start items-center pt-6'>
+          <div className='flex justify-evenly items-center pt-6'>
             <Button primary type='submit'>
               Tallenna
             </Button>
@@ -162,60 +157,63 @@ const DataForm = (props) => {
           </div>
           {errors.note && <p>{errors.note.message}</p>}
           {/*tähän diviin taulu */}
-          <div className='flex justify-center items-center'></div>
-          {/*LISÄÄ TAPAHTUMA VALIKKO*/}
-          <DropdownButton text='Lisää tapahtuma:'>
-            <div className='flex flex-col'>
-              <label className='pt-3 text-gray-200'>Valitse tapahtuma: </label>
-              <select
-                name='note'
-                className=' shadow-2xl text-black rounded py-0 px-9'
-                placeholder='Tapahtuma'
-                required
-                ref={register}
-              >
-                {notes.map((selection, index) =>
-                  selection === 'Valitse' ? (
-                    <option
-                      key={index}
-                      className='text-base font-mono text-black'
-                      disabled
-                    >
-                      {selection}
-                    </option>
-                  ) : (
-                    <option
-                      key={index}
-                      className='text-base font-mono text-black'
-                    >
-                      {selection}
-                    </option>
-                  )
-                )}
-              </select>
+          <div className='flex justify-center items-center pr-3'>
+            {/*LISÄÄ TAPAHTUMA VALIKKO*/}
+            <DropdownButton text='Lisää tapahtuma:'>
+              <div className='flex flex-col'>
+                <label className='pt-3 text-gray-200'>
+                  Valitse tapahtuma:{' '}
+                </label>
+                <select
+                  name='note'
+                  className=' shadow-2xl text-black rounded py-0'
+                  placeholder='Tapahtuma'
+                  required
+                  ref={register}
+                >
+                  {notes.map((selection, index) =>
+                    selection === 'Valitse' ? (
+                      <option
+                        key={index}
+                        className='text-base font-mono text-black'
+                        disabled
+                      >
+                        {selection}
+                      </option>
+                    ) : (
+                      <option
+                        key={index}
+                        className='text-base font-mono text-black'
+                      >
+                        {selection}
+                      </option>
+                    )
+                  )}
+                </select>
 
-              <label>Valitse päivämäärä:</label>
-              <Controller
-                control={control}
-                name='date'
-                render={(props) => (
-                  <input
-                    type='date'
-                    className='text-xl rounded font-mono text-black '
-                    onChange={(e) => props.onChange(e)}
-                    selected={props.value}
-                    required
-                  />
-                )}
-              />
+                <label>Valitse päivämäärä:</label>
+                <Controller
+                  control={control}
+                  name='date'
+                  render={(props) => (
+                    <input
+                      type='date'
+                      className='text-xl rounded font-mono text-black '
+                      onChange={(e) => props.onChange(e)}
+                      selected={props.value}
+                      required
+                    />
+                  )}
+                />
 
-              <div className='pt-3'>
-                <Button primary type='submit'>
-                  Lisää
-                </Button>
+                <div className='pt-3'>
+                  <Button primary type='submit'>
+                    Lisää
+                  </Button>
+                </div>
               </div>
-            </div>
-          </DropdownButton>
+            </DropdownButton>
+          </div>
           <div className='flex justify-center items-center pt-12'></div>
         </div>
       </form>

@@ -5,18 +5,16 @@ import { useForm } from 'react-hook-form';
 import DropdownButton from '../shared/DropdownButton';
 const Settings = (props) => {
   const { addToNotes, animalLocations, notes, addToAnimalLocations } = props;
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      newAnimalLocation: 'Lisää uusi sijainti:',
-      newNote: 'Lisää uusi havainto:',
-    },
-  });
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = (newData) => {
-    console.log(newData.newNote);
-    addToNotes(notes.concat(newData.newNote));
-    // alert('added new note ' + newData.note);
-    // addToAnimalLocations(newData.newAnimalLocation);
+    console.log(newData);
+    if (newData.note) {
+      addToNotes(newData);
+    }
+    if (newData.newAnimalLocation) {
+      addToAnimalLocations(newData);
+    }
   };
 
   return (
@@ -24,14 +22,11 @@ const Settings = (props) => {
       <h1 className='text-2xl text-white'>settings</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* HAVAINNOT DROPDOWN */}
-        <DropdownButton
-          text='Lisää uusia havaintoja'
-          labelText='Havainnot lista:'
-        >
-          <div className='flex flex-col pb-2'>
+        <DropdownButton text='Lisää/poista havaintoja' labelText=''>
+          <div className='flex flex-col justify-center items-center pb-2'>
             <select
               name='notes'
-              className='text-black rounded  w-52  py-0 px-9'
+              className='text-black rounded w-52'
               placeholder='havainnot'
             >
               {notes.map((selection, index) =>
@@ -53,28 +48,29 @@ const Settings = (props) => {
                 )
               )}
             </select>
+            <div className='pt-4 pb-3'>
+              <input
+                type='text'
+                name='note'
+                placeholder='Lisää havaintoja listalle:'
+                ref={register()}
+                required
+                className='text-black text-lg rounded font-mono w-52 pr-2'
+              />
+            </div>
+
+            <Button primary type='submit'>
+              Lisää
+            </Button>
           </div>
-          <input
-            type='text'
-            name='newNote'
-            ref={register()}
-            required
-            className='text-black text-xl font-mono w-52 pr-2'
-          />
-          <Button primary className='h-8' type='submit'>
-            Lisää
-          </Button>
         </DropdownButton>
 
         {/* SIJAINNIT DROPDOWN */}
-        <DropdownButton
-          text='Lisää uusia sijainteja:'
-          labelText='Sijainnit lista:'
-        >
-          <div className='flex flex-col pb-2'>
+        <DropdownButton text='Lisää/poista sijainteja' labelText=''>
+          <div className='flex flex-col justify-center items-center pb-2'>
             <select
               name='location'
-              className=' shadow-xl text-black rounded w-52  px-9'
+              className=' shadow-xl text-black rounded w-52'
               ref={register}
             >
               {animalLocations.map((animalLocation, index) => (
@@ -83,17 +79,21 @@ const Settings = (props) => {
                 </option>
               ))}
             </select>
+            <div className='pt-4 pb-3'>
+              <input
+                type='text'
+                name='newAnimalLocation'
+                placeholder='Lisää sijainteja listalle:'
+                ref={register}
+                required
+                className='text-black text-lg rounded font-mono w-52'
+              />
+            </div>
+
+            <Button primary type='submit'>
+              Lisää
+            </Button>
           </div>
-          <input
-            type='text'
-            name='newAnimalLocation'
-            ref={register()}
-            required
-            className='text-black text-xl font-mono w-52'
-          />
-          <Button primary className='h-8' type='submit'>
-            Lisää
-          </Button>
         </DropdownButton>
       </form>
     </div>

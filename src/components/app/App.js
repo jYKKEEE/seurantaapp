@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useFirestore, useFirestoreCollectionData } from 'reactfire';
@@ -10,7 +11,7 @@ import Info from '../Info';
 import QuickForm from '../forms/QuickFrom';
 
 import {
-  notes as notesList,
+  //notes as notesList,
   animalLocations as locations,
 } from '../../testData.js';
 import {
@@ -18,21 +19,20 @@ import {
   ButtonAppContainer,
   ButtonContainer,
 } from '../shared/button/Button';
-import AnimalProfile from '../animalProfile/AnimalProfile';
+import AnimalProfile from '../animalProfile';
 import Settings from '../settings';
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [notes, setNotes] = useState(notesList);
-  // eslint-disable-next-line no-unused-vars
-  const [animalLocations, setAnimalLocations] = useState(locations);
+  const [notes, setNotes] = useState([]);
+  const [animalLocations, setAnimalLocations] = useState([]);
   //form state
   const [states, setStates] = useState({ add: false });
 
-  //eläimet db - toiminnallisuus
+  //// eläimet db - toiminnallisuus \\\
   const animalCollectionRef = useFirestore().collection('animals');
   const { data: animalCollection } = useFirestoreCollectionData(
-    animalCollectionRef.orderBy('notes'),
+    animalCollectionRef.orderBy('number'),
     {
       initialData: [],
       idField: 'id',
@@ -41,34 +41,56 @@ const App = () => {
 
   useEffect(() => {
     setData(animalCollection);
+    animalCollectionRef.get();
   }, [animalCollection]);
 
   const addToAnimals = (newData) => {
     animalCollectionRef.doc(newData.number).set(newData);
   };
 
+  //// notes \\\\
   const noteCollectionRef = useFirestore().collection('notes');
-  const { note: noteCollection } = useFirestoreCollectionData(
-    noteCollectionRef.orderBy('notes'),
-    {
-      initialData: [],
-    }
-  );
+
   useEffect(() => {
-    //setData(noteCollection);
-  }, [noteCollection]);
+    var notesList = [];
+    noteCollectionRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        notesList.push(doc.data().note);
+      });
+    });
+    setNotes(notesList);
+  }, []);
 
   const addToNotes = (newData) => {
+    noteCollectionRef.doc(newData.note).set({ note: newData.note });
     setNotes(notes.concat(newData.note));
   };
+
+  ////  Sijainnit \\\
+
+  const locationsCollectionRef = useFirestore().collection('locations');
+
+  useEffect(() => {
+    var locationList = [];
+    locationsCollectionRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        locationList.push(doc.data().location);
+      });
+    });
+    setAnimalLocations(locationList);
+  }, []);
+
   const addToAnimalLocations = (newData) => {
-    setAnimalLocations(animalLocations.concat(newData.animalLocation));
+    locationsCollectionRef
+      .doc(newData.newAnimalLocation)
+      .set({ location: newData.newAnimalLocation });
+    setAnimalLocations(animalLocations.concat(newData.newAnimalLocation));
   };
 
   const handleAdd = (bool) => {
     setStates((prevState) => ({ ...prevState, add: bool }));
   };
-  console.log('mitäää : ' + animalLocations[1]);
+
   return (
     <ButtonAppContainer>
       <Router>

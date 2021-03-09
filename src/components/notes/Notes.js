@@ -7,7 +7,9 @@ const Sighting = ({ data, add }) => {
 
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
-      Havainnot:
+      <div className='flex justify-center items-center text-6xl font-mono font-semibold text-red-700 pb-3'>
+        Havainnot:
+      </div>
       {data.map((animal, index) => (
         <div key={index} className='flex flex-col'>
           {animal.notes.map((note, i) => {
@@ -24,7 +26,6 @@ const Sighting = ({ data, add }) => {
               daysFromLastNote(note.date) <= daysFromLastNote(today) + 1 &&
               daysFromLastNote(note.date) >= -1
             ) {
-              console.log('kerrokerro: ' + daysFromLastNote(note.date));
               return (
                 <div key={i} className='flex justify-between'>
                   <Link to={`animal/${animal.number}`}>

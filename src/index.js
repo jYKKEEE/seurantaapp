@@ -3,11 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app';
 import reportWebVitals from './reportWebVitals';
+import { FirebaseAppProvider } from 'reactfire';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBeCQJUfT_7v2R0HNSVHkoFCwQjwPa-q_I',
+  authDomain: 'seurantaapp.firebaseapp.com',
+  projectId: 'seurantaapp',
+  storageBucket: 'seurantaapp.appspot.com',
+  messagingSenderId: '1080444147469',
+  appId: '1:1080444147469:web:d4c9031856c20088510244',
+  measurementId: 'G-YRQ8BHJRC0',
+};
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </FirebaseAppProvider>,
   document.getElementById('root')
 );
 

@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   //const [activeColor, setActiveColor] = useState(true);
-
+  /*var style = {button:focus {
+    outline: 1px dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+  }
+  }*/
   return (
     <div style={{ background: '#091c29' }}>
       <div className='flex items-center justify-between w-10/12 mx-auto py-3 text-white'>
@@ -16,16 +20,24 @@ const Navigation = () => {
         </span>
         <div className='flex flex-row text-base'>
           <Link to='/settings'>
-            <button className='mr-2 hover:text-green-500'>User</button>
+            <button className='mr-2 hover:text-green-500 focus:outline-none focus:text-green-500'>
+              User
+            </button>
           </Link>
           <Link to='/animal/profile'>
-            <button className='mr-2 hover:text-green-500'>Lisää</button>
+            <button className='mr-2 hover:text-green-500 focus:outline-none focus:text-green-500'>
+              Lisää
+            </button>
           </Link>
           <Link to='/'>
-            <button className='mr-2 hover:text-green-500'>Info</button>
+            <button className='mr-2 hover:text-green-500 focus:outline-none focus:text-green-500'>
+              Info
+            </button>
           </Link>
           <Link to='/havainnot'>
-            <button className='hover:text-green-500'>Havainnot</button>
+            <button className='hover:text-green-500 focus:outline-none focus:text-green-500'>
+              Havainnot
+            </button>
           </Link>
         </div>
       </div>

@@ -11,10 +11,6 @@ import Info from '../Info';
 import QuickForm from '../forms/QuickFrom';
 
 import {
-  //notes as notesList,
-  animalLocations as locations,
-} from '../../testData.js';
-import {
   FloatingButton,
   ButtonAppContainer,
   ButtonContainer,

@@ -7,13 +7,18 @@ const QuickForm = (props) => {
 
   const onSubmit = (newData) => {
     var edit = false;
-    console.log(newData);
-    console.log('newdata.date: ' + new Date().toISOString().substring(0, 10));
     data.map((animal) => {
       //jos eläin löytyy jo listasta
       if (animal.number === newData.number) {
         edit = true;
         var newAnimal = animal;
+        if (animal.where === '') {
+          var animaL = prompt(
+            'Elukalta puuttuu sijainti',
+            'koti pekkola hiehola'
+          );
+        }
+        alert(animaL);
         newAnimal.notes.push({
           date: new Date().toISOString().substring(0, 10),
           note: newData.note,
@@ -93,14 +98,9 @@ const daysFromLastNote = (date) => {
   var time = new Date().toISOString().substring(0, 10);
   var now = Date.parse(time);
   var x = Date.parse(date);
-  console.log(`aloitus now: ${now}  . . .   x=   ${x}  time  ${time}`);
   var sec = (now - x) / 1000;
-  console.log(`eka sek: ${sec}`);
   var h = sec / 3600;
-  console.log(`toka h: ${h}`);
   var days = Math.round(h / 24);
-  console.log(`kolmas now: ${days}`);
-
   return days;
 };
 export { QuickForm as default, daysFromLastNote };

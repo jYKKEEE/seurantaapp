@@ -8,7 +8,7 @@ const Info = (props) => {
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
       {/*<Filter filters={states} />*/}
-      <div className='flex justify-center items-center text-6xl font-mono font-semibold text-red-700 pb-3'>
+      <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
         Info:
       </div>
       {data.map((animal, index) => (

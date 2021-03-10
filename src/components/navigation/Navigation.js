@@ -2,15 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navigation = () => {
-  //const [activeColor, setActiveColor] = useState(true);
-  /*var style = {button:focus {
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
-  }
-  }*/
   return (
     <div style={{ background: '#091c29' }}>
-      <div className='flex items-center justify-between w-10/12 mx-auto py-3 text-white'>
+      <div className='flex items-center justify-between w-11/12 mx-auto py-3 text-white'>
         <span className='flex flex-row justify-center items-center  text-red-700 text-2xl font-mono'>
           Seuranta
           <span className='w-2 h-2 inline-block rounded-full bg-white'>

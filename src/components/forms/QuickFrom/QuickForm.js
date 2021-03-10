@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const QuickForm = (props) => {
-  const { notes, addToAnimals, data } = props;
+  const { notes, addToAnimals, data, handleNotification } = props;
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = (newData) => {
@@ -13,7 +13,11 @@ const QuickForm = (props) => {
         edit = true;
         var newAnimal = animal;
         if (animal.where === '') {
-          window.alert('lisäys onnistui, mutta sijainti puuttuu');
+          handleNotification(
+            'lisäys onnistui, mutta sijainti puuttuu',
+            'bg-red-700',
+            true
+          );
         }
 
         newAnimal.notes.push({
@@ -27,7 +31,6 @@ const QuickForm = (props) => {
       }
     });
     if (edit === false) {
-      window.alert('lisäys onnistui, mutta sijainti puuttuu');
       addToAnimals({
         number: newData.number,
         name: '',
@@ -40,6 +43,11 @@ const QuickForm = (props) => {
           },
         ],
       });
+      handleNotification(
+        'lisäys onnistui, mutta sijainti puuttuu',
+        'bg-red-700',
+        true
+      );
     }
   };
 

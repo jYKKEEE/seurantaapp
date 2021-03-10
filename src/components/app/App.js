@@ -17,11 +17,24 @@ import {
 } from '../shared/button/Button';
 import AnimalProfile from '../animalProfile';
 import Settings from '../settings';
+import Notifications from '../shared/notifications/Notifications';
 
 const App = () => {
   const [data, setData] = useState([]);
   const [notes, setNotes] = useState([]);
   const [animalLocations, setAnimalLocations] = useState([]);
+  const [notification, setNotification] = useState({
+    text: '',
+    bgcolor: '',
+  });
+
+  //message
+  const handleNotification = (message, bgcolor) => {
+    setNotification({ text: message, bgcolor: bgcolor });
+    setTimeout(() => {
+      setNotification({ text: '', bgcolor: 'text-green-500' });
+    }, 4000);
+  };
   //global states
   const [states, setStates] = useState({ add: false, addButton: true });
   // states handling
@@ -49,6 +62,15 @@ const App = () => {
 
   const addToAnimals = (newData) => {
     animalCollectionRef.doc(newData.number).set(newData);
+  };
+  const deleteAnimal = (number) => {
+    var kysy = confirm('Poistetaanko eläin ' + number);
+    if (kysy) {
+      animalCollectionRef.doc(number).delete();
+      handleNotification(`${number} onnistuneesti poistettu.`, 'bg-green-500');
+    } else {
+      handleNotification('Poisto peruutettu', 'bg-green-500');
+    }
   };
 
   //// notes \\\\
@@ -109,6 +131,11 @@ const App = () => {
           <Navigation handleNotes={handleQuickAddView} />
 
           <Content>
+            <Notifications
+              text={notification.text}
+              bgcolor={notification.bgcolor}
+              handleNotification={handleNotification}
+            />
             <Route path='/' exact>
               <Info data={data} add={states.add} states={states} />
             </Route>
@@ -119,6 +146,7 @@ const App = () => {
               <AnimalProfile
                 data={data}
                 addToAnimals={addToAnimals}
+                deleteAnimal={deleteAnimal}
                 notes={notes}
                 animalLocations={animalLocations}
               />
@@ -139,6 +167,7 @@ const App = () => {
                 notes={notes}
                 addToAnimals={addToAnimals}
                 data={data}
+                handleNotification={handleNotification}
               />
             ) : (
               <div className='flex justify-end pb-3'>

@@ -3,7 +3,7 @@ import React from 'react';
 const TrashCan = () => {
   return (
     <svg
-      className='text-red-700 hover:text-red-500 h-8 w-10'
+      className='text-red-700 hover:text-red-500 h-8 w-10 '
       fill='none'
       viewBox='0 0 20 24'
       stroke='currentColor'

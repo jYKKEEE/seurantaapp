@@ -6,8 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 
 import Button from '../../shared/button/Button';
 import { daysFromLastNote } from '../QuickFrom';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
-import DropdownButton from '../../shared/DropdownButton';
+import DropdownButton from '../../shared/dropdownButton';
 
 const DataForm = (props) => {
   const { animalLocations, addToAnimals, data, id, notes } = props;
@@ -149,7 +148,7 @@ const DataForm = (props) => {
             </select>
           </div>
           {/*//!!!! BUTTONIT !!!!*/}
-          <div className='flex justify-evenly items-center pt-6'>
+          <div className='flex justify-start items-center pt-6'>
             <Button primary type='submit'>
               Tallenna
             </Button>

@@ -13,12 +13,9 @@ const QuickForm = (props) => {
         edit = true;
         var newAnimal = animal;
         if (animal.where === '') {
-          var animaL = prompt(
-            'Elukalta puuttuu sijainti',
-            'koti pekkola hiehola'
-          );
+          window.alert('lisäys onnistui, mutta sijainti puuttuu');
         }
-        alert(animaL);
+
         newAnimal.notes.push({
           date: new Date().toISOString().substring(0, 10),
           note: newData.note,
@@ -30,6 +27,7 @@ const QuickForm = (props) => {
       }
     });
     if (edit === false) {
+      window.alert('lisäys onnistui, mutta sijainti puuttuu');
       addToAnimals({
         number: newData.number,
         name: '',

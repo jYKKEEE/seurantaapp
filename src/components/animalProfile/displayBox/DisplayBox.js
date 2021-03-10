@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React from 'react';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import TrashCan from '../../shared/icons/trashCan/TrashCan';
 
 const DisplayBox = ({ data, id, addToAnimals }) => {
   return (
@@ -18,7 +18,7 @@ const DisplayBox = ({ data, id, addToAnimals }) => {
                     className='flex justify-between items-center font-mono'
                   >
                     {note.date} {note.note}
-                    <DeleteForeverIcon
+                    <TrashCan
                       onClick={() => {
                         var sure = confirm(
                           `Poistetaanko merkintä:  ${note.date} ${note.note}`
@@ -29,7 +29,6 @@ const DisplayBox = ({ data, id, addToAnimals }) => {
                           addToAnimals(newAnimal);
                         }
                       }}
-                      className='text-red-700 hover:text-red-500'
                     />
                   </div>
                 ))

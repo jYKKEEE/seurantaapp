@@ -22,8 +22,15 @@ const App = () => {
   const [data, setData] = useState([]);
   const [notes, setNotes] = useState([]);
   const [animalLocations, setAnimalLocations] = useState([]);
-  //form state
-  const [states, setStates] = useState({ add: false });
+  //global states
+  const [states, setStates] = useState({ add: false, addButton: true });
+  // states handling
+  const handleQuickAddView = (bool) => {
+    setStates((prevState) => ({ ...prevState, add: bool }));
+  };
+  const handleAddButton = (bool) => {
+    setStates((prevState) => ({ ...prevState, addButton: bool }));
+  };
 
   //// eläimet db - toiminnallisuus \\\
   const animalCollectionRef = useFirestore().collection('animals');
@@ -83,20 +90,23 @@ const App = () => {
     setAnimalLocations(animalLocations.concat(newData.newAnimalLocation));
   };
 
-  const handleAdd = (bool) => {
-    setStates((prevState) => ({ ...prevState, add: bool }));
-  };
-
   return (
     <ButtonAppContainer>
       <Router>
         <div
-          className='flex flex-col m-0 bg-gradient-to-tl from-red-500 via-gray-900 to-gray-600 h-screen w-full flex-auto'
+          className='flex flex-col m-0 bg-gradient-to-tl from-red-500 via-gray-800 to-gray-600 h-screen w-full flex-auto'
           onDoubleClick={() => {
-            handleAdd(false);
+            //quickForm näkyy: piilota se. Nappi näkyy: piilota se. Mitään ei näy: näytä nappi.
+            if (states.add) {
+              handleQuickAddView(false);
+            } else if (states.addButton) {
+              handleAddButton(false);
+            } else if (!states.addButton) {
+              handleAddButton(true);
+            }
           }}
         >
-          <Navigation handleNotes={handleAdd} />
+          <Navigation handleNotes={handleQuickAddView} />
 
           <Content>
             <Route path='/' exact>
@@ -123,23 +133,30 @@ const App = () => {
               />
             </Route>
           </Content>
-
-          {states.add ? (
-            <QuickForm notes={notes} addToAnimals={addToAnimals} data={data} />
+          {states.addButton ? (
+            states.add ? (
+              <QuickForm
+                notes={notes}
+                addToAnimals={addToAnimals}
+                data={data}
+              />
+            ) : (
+              <div className='flex justify-end pb-3'>
+                <ButtonContainer>
+                  <FloatingButton
+                    float
+                    className='py-4 px-2'
+                    onClick={() => {
+                      handleQuickAddView(true);
+                    }}
+                  >
+                    +
+                  </FloatingButton>
+                </ButtonContainer>
+              </div>
+            )
           ) : (
-            <div className='flex justify-end pb-3'>
-              <ButtonContainer>
-                <FloatingButton
-                  float
-                  className='py-4 px-2'
-                  onClick={() => {
-                    handleAdd(true);
-                  }}
-                >
-                  +
-                </FloatingButton>
-              </ButtonContainer>
-            </div>
+            <></>
           )}
         </div>
       </Router>

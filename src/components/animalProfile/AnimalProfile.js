@@ -10,7 +10,10 @@ const AnimalProfile = (props) => {
 
   return (
     <div className='text-xl text-white'>
-      <h1>Animal Profile: </h1>
+      <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
+        Animal{' '}
+        {id === 'profile' ? id : <p className='text-green-500 pl-4'>{id}</p>}
+      </div>
 
       <DataForm
         animalLocations={animalLocations}

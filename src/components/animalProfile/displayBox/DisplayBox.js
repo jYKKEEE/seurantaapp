@@ -18,8 +18,9 @@ const DisplayBox = ({ data, id, addToAnimals }) => {
                     className='flex justify-between items-center font-mono'
                   >
                     {note.date} {note.note}
-                    <TrashCan
+                    <p
                       onClick={() => {
+                        console.log('klikkkki');
                         var sure = confirm(
                           `Poistetaanko merkintä:  ${note.date} ${note.note}`
                         );
@@ -29,7 +30,9 @@ const DisplayBox = ({ data, id, addToAnimals }) => {
                           addToAnimals(newAnimal);
                         }
                       }}
-                    />
+                    >
+                      <TrashCan />
+                    </p>
                   </div>
                 ))
               : ''}

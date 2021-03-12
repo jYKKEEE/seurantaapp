@@ -7,7 +7,7 @@ const Sighting = ({ data, add }) => {
 
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
-      <div className='flex justify-center items-center text-6xl font-mono font-semibold text-red-700 pb-3'>
+      <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
         Havainnot:
       </div>
       {data.map((animal, index) => (

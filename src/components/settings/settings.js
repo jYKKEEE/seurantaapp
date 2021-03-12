@@ -6,7 +6,14 @@ import DropdownButton from '../shared/dropdownButton';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
 
 const Settings = (props) => {
-  const { addToNotes, animalLocations, notes, addToAnimalLocations } = props;
+  const {
+    addToNotes,
+    animalLocations,
+    notes,
+    addToAnimalLocations,
+    deleteNote,
+    deleteLocation,
+  } = props;
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (newData) => {
@@ -22,21 +29,25 @@ const Settings = (props) => {
   return (
     <div>
       <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
-        Settings
+        Käyttäjä
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* HAVAINNOT DROPDOWN */}
         <AddRemove
           list={notes}
           text='havainto'
+          id='note'
           inputName='note'
+          remove={deleteNote}
           selectName='notes'
           register={register}
         />
         {/* SIJAINNIT DROPDOWN */}
         <AddRemove
           list={animalLocations}
+          id='animalLocations'
           text='sijainti'
+          remove={deleteLocation}
           inputName='newAnimalLocation'
           selectName='location'
           register={register}
@@ -47,7 +58,7 @@ const Settings = (props) => {
 };
 
 const AddRemove = (props) => {
-  const { list, text, register, inputName, selectName } = props;
+  const { list, text, register, inputName, selectName, id, remove } = props;
   return (
     <div>
       <DropdownButton text={`Lisää/poista ${text}`} labelText=''>
@@ -56,6 +67,7 @@ const AddRemove = (props) => {
             <label htmlFor='location' className='flex flex-col'>
               Poista valinta:
               <select
+                id={id}
                 name={selectName}
                 className=' shadow-xl text-black rounded w-52 mr-12'
                 ref={register}
@@ -70,11 +82,23 @@ const AddRemove = (props) => {
                 ))}
               </select>
             </label>
-            <TrashCan
+            <p
               onClick={() => {
-                confirm('poistetaanko');
+                var indexToDelete = document.getElementById(id).selectedIndex;
+                for (let i = 0; i < list.length; i++) {
+                  if (i === indexToDelete) {
+                    remove(list[i]);
+
+                    /*setTimeout(() => {
+                      location.reload();
+                    }, 2500);*/
+                    return;
+                  }
+                }
               }}
-            />
+            >
+              <TrashCan />
+            </p>
           </div>
           <div className=' pb-3'>
             <label htmlFor='note' className='flex flex-col text-white '>

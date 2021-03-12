@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -5,9 +6,13 @@ import { useFirestore, useFirestoreCollectionData } from 'reactfire';
 import 'firebase/firestore';
 
 import Content from '../content';
-import Notes from '../notes';
-import Navigation from '../navigation';
+
+import AnimalProfile from '../animalProfile';
 import Info from '../Info';
+import Notes from '../notes';
+import Notifications from '../shared/notifications/Notifications';
+import Navigation from '../navigation';
+import Settings from '../settings';
 import QuickForm from '../forms/QuickFrom';
 
 import {
@@ -15,34 +20,64 @@ import {
   ButtonAppContainer,
   ButtonContainer,
 } from '../shared/button/Button';
-import AnimalProfile from '../animalProfile';
-import Settings from '../settings';
-import Notifications from '../shared/notifications/Notifications';
+import { useSwipeable } from 'react-swipeable';
 
 const App = () => {
   const [data, setData] = useState([]);
   const [notes, setNotes] = useState([]);
   const [animalLocations, setAnimalLocations] = useState([]);
-  const [notification, setNotification] = useState({
-    text: '',
-    bgcolor: '',
-  });
 
-  //message
-  const handleNotification = (message, bgcolor) => {
-    setNotification({ text: message, bgcolor: bgcolor });
-    setTimeout(() => {
-      setNotification({ text: '', bgcolor: 'text-green-500' });
-    }, 4000);
-  };
-  //global states
-  const [states, setStates] = useState({ add: false, addButton: true });
-  // states handling
+  ///Swaippaus\\\
+  const swipeAction = useSwipeable({
+    onSwipedLeft: (e) => {
+      console.log('swaipattu vasuriin ', e);
+      swipePages(1);
+    },
+    onSwipedRight: (e) => {
+      console.log('swaipattu oikeelle ', e);
+      swipePages(-1);
+    },
+  });
+  //tilakone
+  const [states, setStates] = useState({
+    add: false,
+    addButton: true,
+    page: 2,
+  });
+  console.log(states.page);
+  // tila handling
   const handleQuickAddView = (bool) => {
     setStates((prevState) => ({ ...prevState, add: bool }));
   };
   const handleAddButton = (bool) => {
     setStates((prevState) => ({ ...prevState, addButton: bool }));
+  };
+  const handlePage = (number) => {
+    setStates((prevState) => ({ ...prevState, page: number }));
+  };
+  const swipePages = (number) => {
+    setStates((prevState) => ({
+      ...prevState,
+      page:
+        prevState.page + number < 1
+          ? 0
+          : prevState.page + number > 2
+          ? 3
+          : prevState.page + number,
+    }));
+  };
+
+  //notifications
+  const [notification, setNotification] = useState({
+    text: '',
+    bgcolor: '',
+  });
+  //notifications msg
+  const handleNotification = (message, bgcolor) => {
+    setNotification({ text: message, bgcolor: bgcolor });
+    setTimeout(() => {
+      setNotification({ text: '', bgcolor: 'text-green-500' });
+    }, 4000);
   };
 
   //// eläimet db - toiminnallisuus \\\
@@ -64,8 +99,8 @@ const App = () => {
     animalCollectionRef.doc(newData.number).set(newData);
   };
   const deleteAnimal = (number) => {
-    var kysy = confirm('Poistetaanko eläin ' + number);
-    if (kysy) {
+    var ask = confirm('Poistetaanko eläin ' + number);
+    if (ask) {
       animalCollectionRef.doc(number).delete();
       handleNotification(`${number} onnistuneesti poistettu.`, 'bg-green-500');
     } else {
@@ -81,6 +116,7 @@ const App = () => {
     noteCollectionRef.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         notesList.push(doc.data().note);
+        console.log('upd');
       });
     });
     setNotes(notesList);
@@ -89,6 +125,22 @@ const App = () => {
   const addToNotes = (newData) => {
     noteCollectionRef.doc(newData.note).set({ note: newData.note });
     setNotes(notes.concat(newData.note));
+    handleNotification(
+      `Valinta '${newData.note}' lisätty listaan`,
+      'bg-green-500'
+    );
+  };
+  const deleteNote = (note) => {
+    var ask = confirm('Poistetaanko havainto ' + note);
+    if (ask) {
+      noteCollectionRef.doc(note).delete();
+      handleNotification(
+        `Valinta '${note}' onnistuneesti poistettu.`,
+        'bg-green-500'
+      );
+    } else {
+      handleNotification('Poisto peruutettu', 'bg-green-500');
+    }
   };
 
   ////  Sijainnit \\\
@@ -110,6 +162,23 @@ const App = () => {
       .doc(newData.newAnimalLocation)
       .set({ location: newData.newAnimalLocation });
     setAnimalLocations(animalLocations.concat(newData.newAnimalLocation));
+    handleNotification(
+      `Valinta '${newData.newAnimalLocation}' lisätty sijainnit listaan`,
+      'bg-green-500'
+    );
+  };
+
+  const deleteLocation = (where) => {
+    var ask = confirm('Poistetaanko sijainti ' + where);
+    if (ask) {
+      locationsCollectionRef.doc(where).delete();
+      handleNotification(
+        `Sijainti ${where} onnistuneesti poistettu.`,
+        'bg-green-500'
+      );
+    } else {
+      handleNotification('Poisto peruutettu', 'bg-green-500');
+    }
   };
 
   return (
@@ -128,9 +197,8 @@ const App = () => {
             }
           }}
         >
-          <Navigation handleNotes={handleQuickAddView} />
-
-          <Content>
+          <Navigation handlePage={handlePage} page={states.page} />
+          <Content swipe={swipeAction} page={states.page}>
             <Notifications
               text={notification.text}
               bgcolor={notification.bgcolor}
@@ -139,7 +207,7 @@ const App = () => {
             <Route path='/' exact>
               <Info data={data} add={states.add} states={states} />
             </Route>
-            <Route path='/havainnot' exact>
+            <Route path='/notes' exact>
               <Notes data={data} add={states.add} />
             </Route>
             <Route path='/animal/:id' exact>
@@ -147,15 +215,17 @@ const App = () => {
                 data={data}
                 addToAnimals={addToAnimals}
                 deleteAnimal={deleteAnimal}
+                handleNotification={handleNotification}
                 notes={notes}
                 animalLocations={animalLocations}
               />
             </Route>
-            <Route path='/animal/profile' exact></Route>
-            <Route path='/settings'>
+            <Route path='/user'>
               <Settings
                 notes={notes}
+                deleteNote={deleteNote}
                 addToNotes={addToNotes}
+                deleteLocation={deleteLocation}
                 animalLocations={animalLocations}
                 addToAnimalLocations={addToAnimalLocations}
               />

@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DataForm from '../forms/DataForm';
@@ -7,21 +6,22 @@ import DisplayBox from './displayBox/DisplayBox';
 
 const AnimalProfile = (props) => {
   const {
-    data,
     addToAnimals,
-    notes,
-    states,
     animalLocations,
     deleteAnimal,
+    handleNotification,
+    data,
+    notes,
+    states,
   } = props;
   const { id } = useParams();
 
   return (
     <div className='text-xl text-white'>
       <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
-        Animal
+        Eläin
         {id === 'profile' ? (
-          <div className='pl-3'>{id}</div>
+          <div className='pl-3'>profiili</div>
         ) : (
           <Link to='/'>
             <div
@@ -38,10 +38,11 @@ const AnimalProfile = (props) => {
       </div>
 
       <DataForm
-        animalLocations={animalLocations}
-        id={id}
-        data={data}
         addToAnimals={addToAnimals}
+        animalLocations={animalLocations}
+        data={data}
+        handleNotification={handleNotification}
+        id={id}
         notes={notes}
         states={states}
       />

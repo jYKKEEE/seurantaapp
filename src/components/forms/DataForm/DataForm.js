@@ -9,7 +9,14 @@ import { daysFromLastNote } from '../QuickFrom';
 import DropdownButton from '../../shared/dropdownButton';
 
 const DataForm = (props) => {
-  const { animalLocations, addToAnimals, data, id, notes } = props;
+  const {
+    animalLocations,
+    addToAnimals,
+    data,
+    id,
+    notes,
+    handleNotification,
+  } = props;
 
   function getAnimal(id) {
     var olio = {
@@ -67,16 +74,18 @@ const DataForm = (props) => {
             date: newData.date,
             note: newData.note,
           });
-          alert(
-            `Lisätty ${newData.note}, pvm: ${newData.date} eläimelle ${newData.number}`
+          handleNotification(
+            `Lisätty ${newData.note}, pvm: ${newData.date} eläimelle ${newData.number}`,
+            'bg-green-500'
           );
+        } else {
+          handleNotification('Tietojen muokkaus onnistui,', 'bg-green-500');
         }
         newAnimal.notes.sort(
           //a-b 0->10, b-a 10->0
           (a, b) => daysFromLastNote(a.date) - daysFromLastNote(b.date)
         );
         addToAnimals(newAnimal);
-        alert('Muokkaus onnistui.');
       }
     });
     if (edit === false) {
@@ -94,7 +103,10 @@ const DataForm = (props) => {
             ]
           : [],
       });
-      alert('Lisäys onnistui.');
+      handleNotification(
+        `Uusi eläin: '${newData.number}' lisätty.`,
+        'bg-green-500'
+      );
     }
   };
 

@@ -88,11 +88,7 @@ const AddRemove = (props) => {
                 for (let i = 0; i < list.length; i++) {
                   if (i === indexToDelete) {
                     remove(list[i]);
-
-                    /*setTimeout(() => {
-                      location.reload();
-                    }, 2500);*/
-                    return;
+                    break;
                   }
                 }
               }}

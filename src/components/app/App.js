@@ -44,7 +44,7 @@ const App = () => {
     addButton: true,
     page: 2,
   });
-  console.log(states.page);
+  console.log('page after swipe: ' + states.page);
   // tila handling
   const handleQuickAddView = (bool) => {
     setStates((prevState) => ({ ...prevState, add: bool }));
@@ -110,17 +110,21 @@ const App = () => {
 
   //// notes \\\\
   const noteCollectionRef = useFirestore().collection('notes');
-
+  const { data: noteCollection } = useFirestoreCollectionData(
+    noteCollectionRef.orderBy('note'),
+    {
+      initialData: [],
+    }
+  );
   useEffect(() => {
     var notesList = [];
     noteCollectionRef.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         notesList.push(doc.data().note);
-        console.log('upd');
       });
     });
     setNotes(notesList);
-  }, []);
+  }, [noteCollection]);
 
   const addToNotes = (newData) => {
     noteCollectionRef.doc(newData.note).set({ note: newData.note });
@@ -146,7 +150,12 @@ const App = () => {
   ////  Sijainnit \\\
 
   const locationsCollectionRef = useFirestore().collection('locations');
-
+  const { data: locationsCollection } = useFirestoreCollectionData(
+    locationsCollectionRef.orderBy('location'),
+    {
+      initialData: [],
+    }
+  );
   useEffect(() => {
     var locationList = [];
     locationsCollectionRef.get().then((querySnapshot) => {
@@ -155,7 +164,7 @@ const App = () => {
       });
     });
     setAnimalLocations(locationList);
-  }, []);
+  }, [locationsCollection]);
 
   const addToAnimalLocations = (newData) => {
     locationsCollectionRef

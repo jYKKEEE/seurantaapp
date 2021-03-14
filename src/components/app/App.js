@@ -195,12 +195,12 @@ const App = () => {
     );
   };
 
-  const deleteLocation = (where) => {
-    var ask = confirm('Poistetaanko sijainti ' + where);
+  const deleteLocation = (animalLocation) => {
+    var ask = confirm('Poistetaanko sijainti ' + animalLocation);
     if (ask) {
-      locationsCollectionRef.doc(where).delete();
+      locationsCollectionRef.doc(animalLocation).delete();
       handleNotification(
-        `Sijainti ${where} onnistuneesti poistettu.`,
+        `Sijainti ${animalLocation} onnistuneesti poistettu.`,
         'bg-green-500'
       );
     } else {
@@ -240,7 +240,12 @@ const App = () => {
               />
             </Route>
             <Route path='/notes' exact>
-              <Notes data={data} add={states.add} />
+              <Notes
+                data={data}
+                states={states}
+                handleFilter={handleFilter}
+                animalLocations={animalLocations}
+              />
             </Route>
             <Route path='/animal/:id' exact>
               <AnimalProfile

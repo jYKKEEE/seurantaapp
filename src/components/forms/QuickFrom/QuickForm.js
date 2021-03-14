@@ -12,7 +12,7 @@ const QuickForm = (props) => {
       if (animal.number === newData.number) {
         edit = true;
         var newAnimal = animal;
-        if (animal.where === '') {
+        if (animal.animalLocation === '') {
           handleNotification(
             'lisäys onnistui, mutta sijainti puuttuu',
             'bg-red-700',
@@ -35,7 +35,7 @@ const QuickForm = (props) => {
         number: newData.number,
         name: '',
         race: '',
-        where: '',
+        animalLocation: '',
         notes: [
           {
             date: new Date().toISOString().substring(0, 10),

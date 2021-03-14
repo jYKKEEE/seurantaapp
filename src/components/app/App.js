@@ -38,32 +38,50 @@ const App = () => {
       swipePages(-1);
     },
   });
+
   //tilakone
   const [states, setStates] = useState({
     add: false,
     addButton: true,
     page: 2,
+    filter: 99999,
   });
-  console.log('page after swipe: ' + states.page);
+  //console.log('page after swipe: ' + states.page);
+  console.log('tilakone filtteri: ' + states.filter);
   // tila handling
+  const handleFilter = () => {
+    if (states.filter === 99999) {
+      setStates((prevState) => ({ ...prevState, filter: 0 }));
+    } else if (states.filter + 1 === animalLocations.length) {
+      setStates((prevState) => ({
+        ...prevState,
+        filter: 99999,
+      }));
+    } else {
+      setStates((prevState) => ({
+        ...prevState,
+        filter: prevState.filter + 1,
+      }));
+    }
+  };
   const handleQuickAddView = (bool) => {
     setStates((prevState) => ({ ...prevState, add: bool }));
   };
   const handleAddButton = (bool) => {
     setStates((prevState) => ({ ...prevState, addButton: bool }));
   };
-  const handlePage = (number) => {
-    setStates((prevState) => ({ ...prevState, page: number }));
+  const handlePage = (int) => {
+    setStates((prevState) => ({ ...prevState, page: int }));
   };
-  const swipePages = (number) => {
+  const swipePages = (int) => {
     setStates((prevState) => ({
       ...prevState,
       page:
-        prevState.page + number < 1
+        prevState.page + int < 1
           ? 0
-          : prevState.page + number > 2
+          : prevState.page + int > 2
           ? 3
-          : prevState.page + number,
+          : prevState.page + int,
     }));
   };
 
@@ -214,7 +232,12 @@ const App = () => {
               handleNotification={handleNotification}
             />
             <Route path='/' exact>
-              <Info data={data} add={states.add} states={states} />
+              <Info
+                data={data}
+                states={states}
+                handleFilter={handleFilter}
+                animalLocations={animalLocations}
+              />
             </Route>
             <Route path='/notes' exact>
               <Notes data={data} add={states.add} />

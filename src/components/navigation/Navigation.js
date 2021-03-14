@@ -1,14 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { linkStyling } from '../shared/tailwindStyles';
 const Navigation = ({ handlePage, page }) => {
-  const linkStyling = (number) => {
-    if (page === number) {
-      return 'text-green-500 mr-2 focus:outline-none';
-    } else {
-      return 'mr-2 hover:text-green-100 focus:outline-none focus:text-white';
-    }
-  };
   return (
     <div style={{ background: '#091c29' }}>
       <div className='flex items-center justify-between w-11/12 mx-auto py-3 text-white '>
@@ -25,7 +18,7 @@ const Navigation = ({ handlePage, page }) => {
               onClick={() => {
                 handlePage(0);
               }}
-              className={`${linkStyling(0)}`}
+              className={`${linkStyling(page, 0)}`}
             >
               Käyttäjä
             </button>
@@ -35,7 +28,7 @@ const Navigation = ({ handlePage, page }) => {
               onClick={() => {
                 handlePage(1);
               }}
-              className={`${linkStyling(1)}`}
+              className={`${linkStyling(page, 1)}`}
             >
               Lisää
             </button>
@@ -45,7 +38,7 @@ const Navigation = ({ handlePage, page }) => {
               onClick={() => {
                 handlePage(2);
               }}
-              className={`${linkStyling(2)}`}
+              className={`${linkStyling(page, 2)}`}
             >
               Info
             </button>
@@ -55,7 +48,7 @@ const Navigation = ({ handlePage, page }) => {
               onClick={() => {
                 handlePage(3);
               }}
-              className={`${linkStyling(3)}`}
+              className={`${linkStyling(page, 3)}`}
             >
               Havainnot
             </button>

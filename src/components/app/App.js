@@ -30,11 +30,9 @@ const App = () => {
   ///Swaippaus\\\
   const swipeAction = useSwipeable({
     onSwipedLeft: (e) => {
-      console.log('swaipattu vasuriin ', e);
       swipePages(1);
     },
     onSwipedRight: (e) => {
-      console.log('swaipattu oikeelle ', e);
       swipePages(-1);
     },
   });
@@ -47,7 +45,6 @@ const App = () => {
     filter: 99999,
   });
   //console.log('page after swipe: ' + states.page);
-  console.log('tilakone filtteri: ' + states.filter);
   // tila handling
   const handleFilter = () => {
     if (states.filter === 99999) {
@@ -153,7 +150,7 @@ const App = () => {
     );
   };
   const deleteNote = (note) => {
-    var ask = confirm('Poistetaanko havainto ' + note);
+    var ask = confirm('VAROITUS!!\nPoistetaanko havainto ' + note);
     if (ask) {
       noteCollectionRef.doc(note).delete();
       handleNotification(
@@ -196,7 +193,13 @@ const App = () => {
   };
 
   const deleteLocation = (animalLocation) => {
-    var ask = confirm('Poistetaanko sijainti ' + animalLocation);
+    var ask = confirm(
+      'VAROITUS!!!\nHaluatko varmasti poistaa sijainnin: ' +
+        animalLocation +
+        '\nPoiston jälkeen et enää voi lajitella eläimiä sijainnin: ' +
+        animalLocation +
+        ' perusteella.'
+    );
     if (ask) {
       locationsCollectionRef.doc(animalLocation).delete();
       handleNotification(
@@ -259,12 +262,13 @@ const App = () => {
             </Route>
             <Route path='/user'>
               <Settings
-                notes={notes}
-                deleteNote={deleteNote}
-                addToNotes={addToNotes}
-                deleteLocation={deleteLocation}
-                animalLocations={animalLocations}
                 addToAnimalLocations={addToAnimalLocations}
+                addToNotes={addToNotes}
+                animalLocations={animalLocations}
+                data={data}
+                deleteLocation={deleteLocation}
+                deleteNote={deleteNote}
+                notes={notes}
               />
             </Route>
           </Content>

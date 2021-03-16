@@ -1,1 +1,1 @@
-export { linkStyling } from './tailwindStyles.js';
+export { linkStyling, listAllStyling } from './tailwindStyles.js';

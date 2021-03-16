@@ -1,18 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import AllAnimals from '../allAnimalsList/AllAnimalsList';
 import Button from '../shared/button';
 import DropdownButton from '../shared/dropdownButton';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
 
 const Settings = (props) => {
   const {
+    addToAnimalLocations,
     addToNotes,
     animalLocations,
-    notes,
-    addToAnimalLocations,
+    data,
     deleteNote,
     deleteLocation,
+    notes,
   } = props;
   const { register, handleSubmit } = useForm();
 
@@ -53,6 +55,9 @@ const Settings = (props) => {
           register={register}
         />
       </form>
+      <DropdownButton text={'Listaa kaikki eläimet'}>
+        <AllAnimals data={data} />
+      </DropdownButton>
     </div>
   );
 };

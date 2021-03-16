@@ -1,8 +1,9 @@
+/* eslint-disable indent */
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DataForm from '../forms/DataForm';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
-import DisplayBox from './displayBox/DisplayBox';
+import DisplayBox from '../shared/displayBox/DisplayBox';
 
 const AnimalProfile = (props) => {
   const {
@@ -46,7 +47,41 @@ const AnimalProfile = (props) => {
         notes={notes}
         states={states}
       />
-      <DisplayBox data={data} id={id} addToAnimals={addToAnimals} />
+      <DisplayBox>
+        {data.map((animal, animalIndex) => {
+          return animal.number === id ? (
+            <div key={animalIndex}>
+              {animal.notes.length > 0
+                ? animal.notes.map((note, noteIndex) => (
+                    <div
+                      key={noteIndex}
+                      className='flex justify-between items-center font-mono'
+                    >
+                      {note.date} {note.note}
+                      <p
+                        onClick={() => {
+                          console.log('klikkkki');
+                          var sure = confirm(
+                            `Poistetaanko merkintä:  ${note.date} ${note.note}`
+                          );
+                          if (sure) {
+                            const newAnimal = animal;
+                            newAnimal.notes.splice(noteIndex, 1);
+                            addToAnimals(newAnimal);
+                          }
+                        }}
+                      >
+                        <TrashCan />
+                      </p>
+                    </div>
+                  ))
+                : ''}
+            </div>
+          ) : (
+            <div key={animalIndex}></div>
+          );
+        })}
+      </DisplayBox>
     </div>
   );
 };

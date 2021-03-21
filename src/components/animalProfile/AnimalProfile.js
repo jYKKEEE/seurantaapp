@@ -8,7 +8,7 @@ import DisplayBox from '../shared/displayBox/DisplayBox';
 const AnimalProfile = (props) => {
   const {
     addToAnimals,
-    animalLocations,
+    groups,
     deleteAnimal,
     handleNotification,
     data,
@@ -40,7 +40,7 @@ const AnimalProfile = (props) => {
 
       <DataForm
         addToAnimals={addToAnimals}
-        animalLocations={animalLocations}
+        groups={groups}
         data={data}
         handleNotification={handleNotification}
         id={id}

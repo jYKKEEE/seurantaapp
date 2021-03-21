@@ -12,9 +12,9 @@ const QuickForm = (props) => {
       if (animal.number === newData.number) {
         edit = true;
         var newAnimal = animal;
-        if (animal.animalLocation === '') {
+        if (animal.group === '') {
           handleNotification(
-            'lisäys onnistui, mutta sijainti puuttuu',
+            'lisäys onnistui, mutta ryhmä puuttuu',
             'bg-red-700',
             true
           );
@@ -35,7 +35,7 @@ const QuickForm = (props) => {
         number: newData.number,
         name: '',
         race: '',
-        animalLocation: '',
+        group: '',
         notes: [
           {
             date: new Date().toISOString().substring(0, 10),
@@ -44,7 +44,7 @@ const QuickForm = (props) => {
         ],
       });
       handleNotification(
-        'lisäys onnistui, mutta sijainti puuttuu',
+        'lisäys onnistui, mutta ryhmä puuttuu',
         'bg-red-700',
         true
       );

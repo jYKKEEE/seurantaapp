@@ -9,21 +9,14 @@ import { daysFromLastNote } from '../QuickFrom';
 import DropdownButton from '../../shared/dropdownButton';
 
 const DataForm = (props) => {
-  const {
-    animalLocations,
-    addToAnimals,
-    data,
-    id,
-    notes,
-    handleNotification,
-  } = props;
+  const { groups, addToAnimals, data, id, notes, handleNotification } = props;
 
   function getAnimal(id) {
     var olio = {
       number: '',
       name: '',
       race: '',
-      animalLocation: '',
+      group: '',
       notes: [],
     };
     for (let i = 0; i < data.length; i++) {
@@ -46,7 +39,7 @@ const DataForm = (props) => {
       number: getAnimal(id).number,
       name: getAnimal(id).name,
       race: getAnimal(id).race,
-      animalLocation: getAnimal(id).animalLocation,
+      group: getAnimal(id).group,
       note: '',
       date: new Date(),
     },
@@ -62,10 +55,7 @@ const DataForm = (props) => {
           number: newData.number,
           name: newData.name === '' ? animal.name : newData.name,
           race: newData.race === '' ? animal.race : newData.race,
-          animalLocation:
-            newData.animalLocation === ''
-              ? animal.animalLocation
-              : newData.animalLocation,
+          group: newData.group === '' ? animal.group : newData.group,
           notes: animal.notes,
         };
 
@@ -93,7 +83,7 @@ const DataForm = (props) => {
         number: newData.number,
         name: newData.name,
         race: newData.race,
-        animalLocation: newData.animalLocation,
+        group: newData.group,
         notes: newData.note
           ? [
               {
@@ -144,17 +134,17 @@ const DataForm = (props) => {
             placeholder=' Anna rotu:'
             ref={register}
           />
-          <label className='pt-3'>Sijainti:</label>
+          <label className='pt-3'>Ryhmä:</label>
           <div className='flex flex-col w-64'>
             <select
-              name='animalLocation'
+              name='group'
               className=' shadow-2xl text-black rounded py-0'
               required
               ref={register}
             >
-              {animalLocations.map((animalLocation, index) => (
+              {groups.map((group, index) => (
                 <option key={index} className='text-base font-mono text-black'>
-                  {animalLocation}
+                  {group}
                 </option>
               ))}
             </select>

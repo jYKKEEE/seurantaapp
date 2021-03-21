@@ -2,8 +2,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import { useFirestore, useFirestoreCollectionData, useUser } from 'reactfire';
 import 'firebase/firestore';
+import 'firebase/auth';
 
 import Content from '../content';
 
@@ -25,7 +26,7 @@ import { useSwipeable } from 'react-swipeable';
 const App = () => {
   const [data, setData] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [animalLocations, setAnimalLocations] = useState([]);
+  const [groups, setGroups] = useState([]);
 
   ///Swaippaus\\\
   const swipeAction = useSwipeable({
@@ -49,7 +50,7 @@ const App = () => {
   const handleFilter = () => {
     if (states.filter === 99999) {
       setStates((prevState) => ({ ...prevState, filter: 0 }));
-    } else if (states.filter + 1 === animalLocations.length) {
+    } else if (states.filter + 1 === groups.length) {
       setStates((prevState) => ({
         ...prevState,
         filter: 99999,
@@ -95,8 +96,13 @@ const App = () => {
     }, 4000);
   };
 
+  const user = useUser();
+
   //// eläimet db - toiminnallisuus \\\
-  const animalCollectionRef = useFirestore().collection('animals');
+  const animalCollectionRef = useFirestore()
+    .collection('user')
+    .doc(user.data.uid)
+    .collection('animals');
   const { data: animalCollection } = useFirestoreCollectionData(
     animalCollectionRef.orderBy('number'),
     {
@@ -124,11 +130,15 @@ const App = () => {
   };
 
   //// notes \\\\
-  const noteCollectionRef = useFirestore().collection('notes');
+  const noteCollectionRef = useFirestore()
+    .collection('user')
+    .doc(user.data.uid)
+    .collection('notes');
   const { data: noteCollection } = useFirestoreCollectionData(
     noteCollectionRef.orderBy('note'),
     {
       initialData: [],
+      idField: 'id',
     }
   );
   useEffect(() => {
@@ -164,46 +174,48 @@ const App = () => {
 
   ////  Sijainnit \\\
 
-  const locationsCollectionRef = useFirestore().collection('locations');
-  const { data: locationsCollection } = useFirestoreCollectionData(
-    locationsCollectionRef.orderBy('location'),
+  const groupsCollectionRef = useFirestore()
+    .collection('user')
+    .doc(user.data.uid)
+    .collection('groups');
+  const { data: groupsCollection } = useFirestoreCollectionData(
+    groupsCollectionRef.orderBy('groups'),
     {
       initialData: [],
+      idField: 'id',
     }
   );
   useEffect(() => {
-    var locationList = [];
-    locationsCollectionRef.get().then((querySnapshot) => {
+    var groupList = [];
+    groupsCollectionRef.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        locationList.push(doc.data().location);
+        groupList.push(doc.data().group);
       });
     });
-    setAnimalLocations(locationList);
-  }, [locationsCollection]);
+    setGroups(groupList);
+  }, [groupsCollection]);
 
-  const addToAnimalLocations = (newData) => {
-    locationsCollectionRef
-      .doc(newData.newAnimalLocation)
-      .set({ location: newData.newAnimalLocation });
-    setAnimalLocations(animalLocations.concat(newData.newAnimalLocation));
+  const addToGroups = (newData) => {
+    groupsCollectionRef.doc(newData.newGroup).set({ group: newData.newGroup });
+    setGroups(groups.concat(newData.newGroup));
     handleNotification(
-      `Valinta '${newData.newAnimalLocation}' lisätty sijainnit listaan`,
+      `Valinta '${newData.newGroup}' lisätty sijainnit listaan`,
       'bg-green-500'
     );
   };
 
-  const deleteLocation = (animalLocation) => {
+  const deleteGroup = (group) => {
     var ask = confirm(
       'VAROITUS!!!\nHaluatko varmasti poistaa sijainnin: ' +
-        animalLocation +
+        group +
         '\nPoiston jälkeen et enää voi lajitella eläimiä sijainnin: ' +
-        animalLocation +
+        group +
         ' perusteella.'
     );
     if (ask) {
-      locationsCollectionRef.doc(animalLocation).delete();
+      groupsCollectionRef.doc(group).delete();
       handleNotification(
-        `Sijainti ${animalLocation} onnistuneesti poistettu.`,
+        `Sijainti ${group} onnistuneesti poistettu.`,
         'bg-green-500'
       );
     } else {
@@ -239,7 +251,7 @@ const App = () => {
                 data={data}
                 states={states}
                 handleFilter={handleFilter}
-                animalLocations={animalLocations}
+                groups={groups}
               />
             </Route>
             <Route path='/notes' exact>
@@ -247,7 +259,7 @@ const App = () => {
                 data={data}
                 states={states}
                 handleFilter={handleFilter}
-                animalLocations={animalLocations}
+                groups={groups}
               />
             </Route>
             <Route path='/animal/:id' exact>
@@ -257,16 +269,16 @@ const App = () => {
                 deleteAnimal={deleteAnimal}
                 handleNotification={handleNotification}
                 notes={notes}
-                animalLocations={animalLocations}
+                groups={groups}
               />
             </Route>
             <Route path='/user'>
               <Settings
-                addToAnimalLocations={addToAnimalLocations}
+                addToGroups={addToGroups}
                 addToNotes={addToNotes}
-                animalLocations={animalLocations}
+                groups={groups}
                 data={data}
-                deleteLocation={deleteLocation}
+                deleteGroup={deleteGroup}
                 deleteNote={deleteNote}
                 notes={notes}
               />

@@ -1,37 +1,65 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import { useUser, useAuth } from 'reactfire';
 import { useForm } from 'react-hook-form';
-import AllAnimals from '../allAnimalsList/AllAnimalsList';
+import AllAnimalsList from '../allAnimalsList/AllAnimalsList';
 import Button from '../shared/button';
 import DropdownButton from '../shared/dropdownButton';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
 
 const Settings = (props) => {
   const {
-    addToAnimalLocations,
+    addToGroups,
     addToNotes,
-    animalLocations,
+    groups,
     data,
     deleteNote,
-    deleteLocation,
+    deleteGroup,
     notes,
   } = props;
   const { register, handleSubmit } = useForm();
+
+  const user = useUser();
+  const auth = useAuth();
+
+  const signOut = async () => {
+    await auth.signOut();
+  };
 
   const onSubmit = (newData) => {
     console.log(newData);
     if (newData.note) {
       addToNotes(newData);
     }
-    if (newData.newAnimalLocation) {
-      addToAnimalLocations(newData);
+    if (newData.newGroup) {
+      addToGroups(newData);
     }
   };
 
   return (
     <div>
-      <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
+      <div className='flex text-4xl font-mono font-semibold text-red-700 pb-3'>
         Käyttäjä
+      </div>
+
+      <div className='flex flex-col text-lg font-mono text-white'>
+        <div className='flex flex-row '>
+          <div className='pr-2 pb-2'>
+            <img src={user.data.photoURL} alt='' className='rounded-2xl' />
+          </div>
+          <div>
+            <div>
+              {user.data.displayName}
+              <br /> {user.data.email}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <Button primary onClick={signOut}>
+            Kirjaudu ulos
+          </Button>
+        </div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* HAVAINNOT DROPDOWN */}
@@ -46,17 +74,18 @@ const Settings = (props) => {
         />
         {/* SIJAINNIT DROPDOWN */}
         <AddRemove
-          list={animalLocations}
-          id='animalLocations'
-          text='sijainti'
-          remove={deleteLocation}
-          inputName='newAnimalLocation'
-          selectName='location'
+          list={groups}
+          id='newGroups'
+          text='ryhmä
+          '
+          remove={deleteGroup}
+          inputName='newGroup'
+          selectName='group'
           register={register}
         />
       </form>
       <DropdownButton text={'Listaa kaikki eläimet'}>
-        <AllAnimals data={data} />
+        <AllAnimalsList data={data} />
       </DropdownButton>
     </div>
   );

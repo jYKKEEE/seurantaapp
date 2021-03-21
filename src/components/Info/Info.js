@@ -5,17 +5,13 @@ import { daysFromLastNote } from '../forms/QuickFrom';
 import Filter from '../filter';
 
 const Info = (props) => {
-  const { data, states, animalLocations, handleFilter } = props;
+  const { data, states, groups, handleFilter } = props;
 
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
       <div className='flex  flex-col  text-4xl font-mono font-semibold text-red-700 pb-3'>
         <p className='flex justify-center'>Tapahtumat:</p>
-        <Filter
-          states={states}
-          handleFilter={handleFilter}
-          animalLocations={animalLocations}
-        />
+        <Filter states={states} handleFilter={handleFilter} groups={groups} />
       </div>
       {states.filter === 99999
         ? data.map((animal, index) => (
@@ -97,7 +93,7 @@ const Info = (props) => {
           ))
         : data.map((animal, index) => (
             <div key={index} className='flex flex-col'>
-              {animal.animalLocation === animalLocations[states.filter] ? (
+              {animal.group === groups[states.filter] ? (
                 animal.notes.map((note, i) => {
                   var infoOutput = note.note.includes('Veri') ? (
                     <p className='text-red-700 pl-2'>verestä</p>

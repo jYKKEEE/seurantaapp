@@ -4,7 +4,7 @@ import { linkStyling } from '../shared/tailwindStyles';
 
 const Filter = (props) => {
   // eslint-disable-next-line no-unused-vars
-  const { states, animalLocations, handleFilter } = props;
+  const { states, groups, handleFilter } = props;
   const [effect, setEffect] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ const Filter = (props) => {
         <p className={`${linkStyling(states.filter, 99999)}`}>Kaikki:</p>
       ) : (
         <p className={`${linkStyling(states.filter, states.filter)}`}>
-          {animalLocations[states.filter]}:
+          {groups[states.filter]}:
         </p>
       )}
       <div

@@ -5,18 +5,14 @@ import { Link } from 'react-router-dom';
 import Filter from '../filter';
 
 const Notes = (props) => {
-  const { data, states, animalLocations, handleFilter } = props;
+  const { data, states, groups, handleFilter } = props;
   const today = new Date().toISOString().substring(0, 10);
 
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
       <div className='flex  flex-col  text-4xl font-mono font-semibold text-red-700 pb-3'>
         <p className='flex justify-center'>Havainnot:</p>
-        <Filter
-          states={states}
-          handleFilter={handleFilter}
-          animalLocations={animalLocations}
-        />
+        <Filter states={states} handleFilter={handleFilter} groups={groups} />
       </div>
 
       {states.filter === 99999
@@ -67,7 +63,7 @@ const Notes = (props) => {
           ))
         : data.map((animal, index) => (
             <div key={index} className='flex flex-col'>
-              {animal.animalLocation === animalLocations[states.filter] ? (
+              {animal.animalLocation === groups[states.filter] ? (
                 animal.notes.map((note, i) => {
                   const output = note.note.includes('Veri') ? (
                     <p className='text-red-700 pl-2'>veri</p>

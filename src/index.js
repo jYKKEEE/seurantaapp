@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app';
 import reportWebVitals from './reportWebVitals';
-import { FirebaseAppProvider } from 'reactfire';
+import { FirebaseAppProvider, AuthCheck } from 'reactfire';
+import Startup from './components/startup';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBeCQJUfT_7v2R0HNSVHkoFCwQjwPa-q_I',
@@ -18,7 +19,9 @@ const firebaseConfig = {
 ReactDOM.render(
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <React.StrictMode>
-      <App />
+      <AuthCheck fallback={<Startup />}>
+        <App />
+      </AuthCheck>
     </React.StrictMode>
   </FirebaseAppProvider>,
   document.getElementById('root')

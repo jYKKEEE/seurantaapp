@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import DataForm from '../forms/DataForm';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
 import DisplayBox from '../shared/displayBox/DisplayBox';
@@ -17,6 +17,8 @@ const AnimalProfile = (props) => {
   } = props;
   const { id } = useParams();
 
+  let history = useHistory();
+
   return (
     <div className='text-xl text-white'>
       <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
@@ -25,17 +27,15 @@ const AnimalProfile = (props) => {
         ) : (
           <div className='flex flex-row'>
             Eläin
-            <Link to='/'>
-              <div
-                className='text-green-500 pl-4 flex flex-row items-center'
-                onClick={() => {
-                  deleteAnimal(id);
-                }}
-              >
-                {id}
-                <TrashCan />
-              </div>
-            </Link>
+            <div
+              className='text-green-500 pl-4 flex flex-row items-center'
+              onClick={() => {
+                deleteAnimal(id) ? history.goBack() : () => {};
+              }}
+            >
+              {id}
+              <TrashCan />
+            </div>
           </div>
         )}
       </div>
@@ -49,41 +49,45 @@ const AnimalProfile = (props) => {
         notes={notes}
         states={states}
       />
-      <DisplayBox>
-        {data.map((animal, animalIndex) => {
-          return animal.number === id ? (
-            <div key={animalIndex}>
-              {animal.notes.length > 0
-                ? animal.notes.map((note, noteIndex) => (
-                    <div
-                      key={noteIndex}
-                      className='flex justify-between items-center font-mono'
-                    >
-                      {note.date} {note.note}
-                      <p
-                        onClick={() => {
-                          console.log('klikkkki');
-                          var sure = confirm(
-                            `Poistetaanko merkintä:  ${note.date} ${note.note}`
-                          );
-                          if (sure) {
-                            const newAnimal = animal;
-                            newAnimal.notes.splice(noteIndex, 1);
-                            addToAnimals(newAnimal);
-                          }
-                        }}
+      {id !== 'profile' ? (
+        <DisplayBox>
+          {data.map((animal, animalIndex) => {
+            return animal.number === id ? (
+              <div key={animalIndex}>
+                {animal.notes.length > 0
+                  ? animal.notes.map((note, noteIndex) => (
+                      <div
+                        key={noteIndex}
+                        className='flex justify-between items-center font-mono'
                       >
-                        <TrashCan />
-                      </p>
-                    </div>
-                  ))
-                : ''}
-            </div>
-          ) : (
-            <div key={animalIndex}></div>
-          );
-        })}
-      </DisplayBox>
+                        {note.date} {note.note}
+                        <p
+                          onClick={() => {
+                            console.log('klikkkki');
+                            var sure = confirm(
+                              `Poistetaanko merkintä:  ${note.date} ${note.note}`
+                            );
+                            if (sure) {
+                              const newAnimal = animal;
+                              newAnimal.notes.splice(noteIndex, 1);
+                              addToAnimals(newAnimal);
+                            }
+                          }}
+                        >
+                          <TrashCan />
+                        </p>
+                      </div>
+                    ))
+                  : ''}
+              </div>
+            ) : (
+              <div key={animalIndex}></div>
+            );
+          })}
+        </DisplayBox>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

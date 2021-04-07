@@ -92,7 +92,7 @@ const App = () => {
   const handleNotification = (message, bgcolor) => {
     setNotification({ text: message, bgcolor: bgcolor });
     setTimeout(() => {
-      setNotification({ text: '', bgcolor: 'text-green-500' });
+      setNotification({ text: '', bgcolor: '' });
     }, 4000);
   };
 
@@ -124,8 +124,10 @@ const App = () => {
     if (ask) {
       animalCollectionRef.doc(number).delete();
       handleNotification(`${number} onnistuneesti poistettu.`, 'bg-green-500');
+      return true;
     } else {
       handleNotification('Poisto peruutettu', 'bg-green-500');
+      return false;
     }
   };
 

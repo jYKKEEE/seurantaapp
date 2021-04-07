@@ -8,18 +8,19 @@ const Notes = (props) => {
   const { data, states, groups, handleFilter } = props;
   const today = new Date().toISOString().substring(0, 10);
 
+  //let history = useHistory();
+
   return (
     <div className='flex flex-col text-xl text-white ml-2 mr-2'>
       <div className='flex  flex-col  text-4xl font-mono font-semibold text-red-700 pb-3'>
         <p className='flex justify-center'>Havainnot:</p>
         <Filter states={states} handleFilter={handleFilter} groups={groups} />
       </div>
-
+      {/*history.push('/notes')*/}
       {states.filter === 99999
         ? data.map((animal, index) => (
             <div key={index} className='flex flex-col'>
               {animal.notes.map((note, i) => {
-                console.log('grouppi ' + animal.group);
                 const output = note.note.includes('Veri') ? (
                   <p className='text-red-700 pl-2'>veri</p>
                 ) : note.note.includes('Siemennys') ? (

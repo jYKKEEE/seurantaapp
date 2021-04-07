@@ -7,29 +7,37 @@ const QuickForm = (props) => {
 
   const onSubmit = (newData) => {
     var edit = false;
+    var today = new Date().toISOString().substring(0, 10);
     data.map((animal) => {
-      //jos eläin löytyy jo listasta
+      //jos eläin löytyy jo listasta, lisätään sille uusi merkintä
       if (animal.number === newData.number) {
         edit = true;
         var newAnimal = animal;
-        if (animal.group === '') {
-          handleNotification(
-            'lisäys onnistui, mutta ryhmä puuttuu',
-            'bg-red-700',
-            true
-          );
-        }
-
+        console.log(animal.group);
         newAnimal.notes.push({
-          date: new Date().toISOString().substring(0, 10),
+          date: today,
           note: newData.note,
         });
         newAnimal.notes.sort(
           (a, b) => daysFromLastNote(a.date) - daysFromLastNote(b.date)
         );
-        addToAnimals(newAnimal);
+        if (animal.group === '') {
+          handleNotification(
+            `Eläin: '${newData.number}' ryhmä puuttuu. Uusi merkintä: ' ${newData.note} ${today} ' lisätty.`,
+            'bg-red-700',
+            true
+          );
+        } else {
+          addToAnimals(newAnimal);
+          handleNotification(
+            `Uusi merkintä: ' ${newData.note} ${today} ' lisätty.`,
+            'bg-green-500',
+            true
+          );
+        }
       }
     });
+    //jos eläintä ei ole olemassa lisätään se.
     if (edit === false) {
       addToAnimals({
         number: newData.number,
@@ -38,13 +46,13 @@ const QuickForm = (props) => {
         group: '',
         notes: [
           {
-            date: new Date().toISOString().substring(0, 10),
+            date: today,
             note: newData.note,
           },
         ],
       });
       handleNotification(
-        'lisäys onnistui, mutta ryhmä puuttuu',
+        `Eläin: '${newData.number}' ryhmä puuttuu. Uusi merkintä: ' ${newData.note} ${today} ' lisätty.`,
         'bg-red-700',
         true
       );

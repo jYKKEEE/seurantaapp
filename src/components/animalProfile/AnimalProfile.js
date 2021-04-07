@@ -20,21 +20,23 @@ const AnimalProfile = (props) => {
   return (
     <div className='text-xl text-white'>
       <div className='flex justify-center items-center text-4xl font-mono font-semibold text-red-700 pb-3'>
-        Eläin
         {id === 'profile' ? (
-          <div className='pl-3'>profiili</div>
+          <div className='pl-3'> Lisää Eläin</div>
         ) : (
-          <Link to='/'>
-            <div
-              className='text-green-500 pl-4 flex flex-row items-center'
-              onClick={() => {
-                deleteAnimal(id);
-              }}
-            >
-              {id}
-              <TrashCan />
-            </div>
-          </Link>
+          <div className='flex flex-row'>
+            Eläin
+            <Link to='/'>
+              <div
+                className='text-green-500 pl-4 flex flex-row items-center'
+                onClick={() => {
+                  deleteAnimal(id);
+                }}
+              >
+                {id}
+                <TrashCan />
+              </div>
+            </Link>
+          </div>
         )}
       </div>
 

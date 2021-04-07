@@ -19,6 +19,7 @@ const Notes = (props) => {
         ? data.map((animal, index) => (
             <div key={index} className='flex flex-col'>
               {animal.notes.map((note, i) => {
+                console.log('grouppi ' + animal.group);
                 const output = note.note.includes('Veri') ? (
                   <p className='text-red-700 pl-2'>veri</p>
                 ) : note.note.includes('Siemennys') ? (
@@ -63,7 +64,7 @@ const Notes = (props) => {
           ))
         : data.map((animal, index) => (
             <div key={index} className='flex flex-col'>
-              {animal.animalLocation === groups[states.filter] ? (
+              {animal.group === groups[states.filter] ? (
                 animal.notes.map((note, i) => {
                   const output = note.note.includes('Veri') ? (
                     <p className='text-red-700 pl-2'>veri</p>

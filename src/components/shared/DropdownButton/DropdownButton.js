@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-//import { useForm } from 'react-hook-form';
 
 import Button from '../button/Button';
 import UpDownArrow from '../icons/upDownArrow';
 const DropdownButton = (props) => {
-  // const { register, handleSubmit, setError, getValues } = useForm();
   const [dropEvent, setDropEvent] = useState(false);
 
   return (

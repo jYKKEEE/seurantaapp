@@ -23,14 +23,20 @@ function Startup() {
           </span>
         </div>
       </div>
+      <div className='flex flex-col justify-center items-center p-2'>
+        <div className='flex flex-row text-xl text-white pb-24 pt-3'>
+          Tervetuloa käyttämään Seuranta.appia
+        </div>
 
-      <div className='flex flex-col justify-center items-center text-base text-white mt-6 p-2'>
-        <p>
-          Tervetuloa käyttämään Seuranta appia. Sinun tulee kirjautua sisään
-        </p>
-        <p className='mb-2'>
-          Google-tunnuksillasi, jotta voit käyttää sovellusta.
-        </p>
+        <div className='flex flex-col items-center justify-center text-white max-w-sm pb-4'>
+          <p className='text-base font-mono text-green-500 pb-24'>
+            Tämä on sovellus lehmien kiimojen seurantaan.
+          </p>
+        </div>
+        <div className='max-w-xs pb-2 text-sm text-white'>
+          Sinun tulee kirjautua sisään Google-tunnuksillasi, jotta voit käyttää
+          sovellusta.
+        </div>
         <Button primary onClick={signIn}>
           Kirjaudu sisään
         </Button>

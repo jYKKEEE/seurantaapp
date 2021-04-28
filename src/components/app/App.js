@@ -38,15 +38,13 @@ const App = () => {
     },
   });
 
-  //tilakone
   const [states, setStates] = useState({
     add: false,
     addButton: true,
-    page: 2,
+    page: 0,
     filter: 99999,
   });
-  //console.log('page after swipe: ' + states.page);
-  // tila handling
+  // state handling
   const handleFilter = () => {
     if (states.filter === 99999) {
       setStates((prevState) => ({ ...prevState, filter: 0 }));

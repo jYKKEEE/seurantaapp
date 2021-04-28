@@ -104,10 +104,9 @@ const Info = (props) => {
                   ) : (
                     <p className='text-gray-400 pl-2'>{note.note}</p>
                   );
-                  //jos edellinen merkintä 18 pv ni ilmota!!, jos vika merkintä veri ni ilmota siemennys?
                   if (
-                    daysFromLastNote(note.date) >= 20 &&
-                    daysFromLastNote(note.date) <= 22
+                    daysFromLastNote(note.date) >= 19 &&
+                    daysFromLastNote(note.date) <= 23
                   ) {
                     return (
                       <div key={i} className='flex justify-between'>

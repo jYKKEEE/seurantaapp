@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { linkStyling } from '../shared/tailwindStyles';
 const Navigation = ({ handlePage, page }) => {
   return (
-    <div style={{ background: '#091c29' }}>
+    <div className='bg-primary'>
       <div className='flex items-center justify-between w-11/12 mx-auto py-3 text-white '>
         <span className='flex flex-row justify-center items-center  text-red-700 text-2xl font-mono'>
           Seuranta

@@ -1,11 +1,16 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useUser, useAuth } from 'reactfire';
 import { useForm } from 'react-hook-form';
+
+import { havainnotPopup, ryhmaPopup } from '../../popUpMessages.js';
+
 import AllAnimalsList from '../allAnimalsList/AllAnimalsList';
 import Button from '../shared/button';
 import DropdownButton from '../shared/dropdownButton';
+
+import Popup from 'reactjs-popup';
 import TrashCan from '../shared/icons/trashCan/TrashCan';
+import ICircle from '../shared/icons/iCircle';
 
 const Settings = (props) => {
   const {
@@ -68,6 +73,7 @@ const Settings = (props) => {
           text='havainto'
           id='note'
           inputName='note'
+          popupMsg={havainnotPopup}
           remove={deleteNote}
           selectName='notes'
           register={register}
@@ -80,8 +86,9 @@ const Settings = (props) => {
           '
           remove={deleteGroup}
           inputName='newGroup'
-          selectName='group'
+          popupMsg={ryhmaPopup}
           register={register}
+          selectName='group'
         />
       </form>
       <DropdownButton text={'Listaa kaikki eläimet'}>
@@ -92,7 +99,16 @@ const Settings = (props) => {
 };
 
 const AddRemove = (props) => {
-  const { list, text, register, inputName, selectName, id, remove } = props;
+  const {
+    list,
+    text,
+    register,
+    inputName,
+    selectName,
+    id,
+    popupMsg,
+    remove,
+  } = props;
   return (
     <div>
       <DropdownButton text={`Lisää/poista ${text}`} labelText=''>
@@ -116,7 +132,7 @@ const AddRemove = (props) => {
                 ))}
               </select>
             </label>
-            <p
+            <div
               onClick={() => {
                 var indexToDelete = document.getElementById(id).selectedIndex;
                 for (let i = 0; i < list.length; i++) {
@@ -128,10 +144,11 @@ const AddRemove = (props) => {
               }}
             >
               <TrashCan />
-            </p>
+            </div>
           </div>
-          <div className=' pb-3'>
-            <label htmlFor='note' className='flex flex-col text-white '>
+
+          <div className='pb-3 flex items-end text-white '>
+            <label htmlFor='note' className='flex flex-col text-white mr-14'>
               Lisää uusi {text}:
               <input
                 type='text'
@@ -142,6 +159,20 @@ const AddRemove = (props) => {
                 className='text-black text-lg rounded font-mono w-52'
               />
             </label>
+            <Popup
+              trigger={
+                <button type='button'>
+                  <ICircle />
+                </button>
+              }
+              position='right center'
+            >
+              {() => (
+                <div className='bg-primary rounded-lg font-mono text-white p-1'>
+                  <p className=''>{popupMsg}</p>
+                </div>
+              )}
+            </Popup>
           </div>
 
           <Button primary type='submit'>

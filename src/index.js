@@ -7,13 +7,13 @@ import { FirebaseAppProvider, AuthCheck } from 'reactfire';
 import Startup from './components/startup';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBeCQJUfT_7v2R0HNSVHkoFCwQjwPa-q_I',
-  authDomain: 'seurantaapp.firebaseapp.com',
-  projectId: 'seurantaapp',
-  storageBucket: 'seurantaapp.appspot.com',
-  messagingSenderId: '1080444147469',
-  appId: '1:1080444147469:web:d4c9031856c20088510244',
-  measurementId: 'G-YRQ8BHJRC0',
+  apiKey: process.env.REACT_APP_FB_APIKEY,
+  authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FB_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FB_MEASUREMENT_ID,
+  appId: process.env.REACT_APP_FB_MEASUREMENT_ID,
+  measurementId: process.env.REACT_APP_FB_APP_IP,
 };
 
 ReactDOM.render(

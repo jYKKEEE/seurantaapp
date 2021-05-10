@@ -165,10 +165,10 @@ const AddRemove = (props) => {
                   <ICircle />
                 </button>
               }
-              position='right center'
+              position='left center'
             >
               {() => (
-                <div className='bg-primary rounded-lg font-mono text-white p-1'>
+                <div className='bg-primary rounded-lg font-mono text-white p-1 w-56'>
                   <p className=''>{popupMsg}</p>
                 </div>
               )}

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import DisplayBox from '../shared/displayBox/DisplayBox';
-import { listAllStyling } from '../shared/tailwindStyles';
+import { listAllStyling } from '../tailwindStyles';
 
 const AllAnimalsList = (props) => {
   const { data } = props;

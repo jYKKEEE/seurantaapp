@@ -7,10 +7,10 @@ export const linkStyling = (state, number) => {
 };
 export const listAllStyling = (index) => {
   if (index === 0) {
-    return 'text-base text-white flex flex-row justify-between pl-2 pr-2 pt-1';
+    return 'text-xs text-white flex flex-row justify-between pl-2 pr-2 pt-1 ';
   } else if (index % 2 === 0) {
-    return 'text-base text-white flex flex-row justify-between pl-2 pr-2 pt-1';
+    return 'text-xs text-white flex flex-row justify-between pl-2 pr-2 pt-1 ';
   } else {
-    return 'text-base text-gray-400 flex flex-row justify-between pl-2 pr-2 pt-1';
+    return 'text-xs text-gray-400 flex flex-row justify-between pl-2 pr-2 pt-1 ';
   }
 };

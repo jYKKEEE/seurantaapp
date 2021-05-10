@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { linkStyling } from '../shared/tailwindStyles';
+import { linkStyling } from '../tailwindStyles/';
 const Navigation = ({ handlePage, page }) => {
   return (
     <div className='bg-primary'>
@@ -12,7 +12,7 @@ const Navigation = ({ handlePage, page }) => {
           </span>
           {/*valkoinen imagopallero */}
         </span>
-        <div className='flex flex-row text-base'>
+        <div className='flex flex-row text-xs sm:text-base '>
           <Link to='/user'>
             <button
               onClick={() => {

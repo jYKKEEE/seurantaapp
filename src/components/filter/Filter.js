@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ChangeFilter from '../shared/icons/changefilter/Changefilter';
-import { linkStyling } from '../shared/tailwindStyles';
+import { linkStyling } from '../tailwindStyles';
 
 const Filter = (props) => {
   // eslint-disable-next-line no-unused-vars

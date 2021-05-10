@@ -6,7 +6,7 @@ const DropdownButton = (props) => {
   const [dropEvent, setDropEvent] = useState(false);
 
   return (
-    <div className='pt-8 flex justify-start flex-col'>
+    <div className='pt-8 flex justify-start flex-col text-xs md:text-base'>
       <Button
         secondary
         onClick={() => {

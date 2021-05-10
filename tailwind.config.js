@@ -10,6 +10,13 @@ module.exports = {
       ...theme('colors'),
       primary: '#091c29',
     }),
+    screens: {
+      sm: '330px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+    },
     fontFamily: {
       mono: ['"Inconsolata"'],
     },

@@ -12,7 +12,7 @@ const Navigation = ({ handlePage, page }) => {
           </span>
           {/*valkoinen imagopallero */}
         </span>
-        <div className='flex flex-row text-xs sm:text-base '>
+        <div className='flex flex-row text-xs sm:text-base'>
           <Link to='/user'>
             <button
               onClick={() => {
